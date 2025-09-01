@@ -1,14 +1,16 @@
 import { Router } from 'express';
-import { createOne, getAll, getOne, updateOne, deleteOne } from '../controllers/crud.js';
-import Book from '../models/Book.js';
 import { getAllBooks } from '../controllers/book.controllers.js';
+import { createOne, deleteOne, getOne, updateOne } from '../controllers/crud.js';
+import authenticate from '../middlewares/authenticate.js';
+import hasRole from '../middlewares/hasRole.js';
+import Book from '../models/Book.js';
 
 const bookRouter = Router();
 
-bookRouter.post('/', createOne(Book));
+bookRouter.post('/', authenticate, createOne(Book));
 bookRouter.get('/', getAllBooks);
-bookRouter.get('/:id', getOne(Book));
-bookRouter.put('/:id', updateOne(Book));
-bookRouter.delete('/:id', deleteOne(Book));
+bookRouter.get('/:id', authenticate, hasRole('reader'), getOne(Book));
+bookRouter.put('/:id', authenticate, updateOne(Book));
+bookRouter.delete('/:id', authenticate, deleteOne(Book));
 
 export default bookRouter;

@@ -9,19 +9,23 @@ import {
   updateBookStatus,
   deleteBookFromReadingList,
 } from '../controllers/user.controllers.js';
-import { registerUser } from '../controllers/auth.controllers.js';
+import { login, logout, registerUser } from '../controllers/auth.controllers.js';
+import authenticate from '../middlewares/authenticate.js';
+import hasRole from '../middlewares/hasRole.js';
 
 const userRouter = Router();
 
 userRouter.post('/', registerUser);
+userRouter.post('/login', login);
+userRouter.delete('/logout', logout);
 
 userRouter.get('/', getAllUsers);
 userRouter.get('/:id', getOneUser);
 userRouter.put('/:id', updateOneUser);
 userRouter.delete('/:id', deleteUser);
 
-userRouter.post('/:id/books', addBookToReadingList);
-userRouter.put('/:id/books/:bookId', updateBookStatus);
-userRouter.delete('/:id/books/:bookId', deleteBookFromReadingList);
+userRouter.post('/:id/books', authenticate, hasRole('admin'), addBookToReadingList);
+userRouter.put('/:id/books/:bookId', authenticate, hasRole('self', 'admin'), updateBookStatus);
+userRouter.delete('/:id/books/:bookId', authenticate, hasRole('self', 'admin'), deleteBookFromReadingList);
 
 export default userRouter;

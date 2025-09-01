@@ -25,6 +25,11 @@ const userSchema = new Schema({
     type: String,
     select: false,
   },
+  role: {
+    type: String,
+    enum: ['admin', 'reader', 'librarian'],
+    default: 'reader',
+  },
 });
 
 const User = model('user', userSchema);

@@ -1,6 +1,7 @@
 import express from 'express';
 import chalk from 'chalk';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import './db/index.js';
 import mongoose from 'mongoose';
 import { errorHandler } from './middlewares/index.js';
@@ -9,7 +10,7 @@ import { userRouter, bookRouter } from './routers/index.js';
 const app = express();
 const port = process.env.PORT || 8912;
 
-app.use(express.json());
+app.use(express.json(), cookieParser());
 app.use(cors());
 
 app.get('/health', async (_req, res) => {

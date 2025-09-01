@@ -35,6 +35,8 @@ const addBookToReadingList = async (req, res) => {
   const { id } = req.params;
   const { bookRefId, status = 'pending' } = req.body;
 
+  // if (id !== req.user._id) throw new Error("...")
+
   // const user = await User.findByIdAndUpdate(id, { $push: { readingList: { bookRefId } } }, { new: true });
 
   const bookExists = await Book.exists({ _id: bookRefId });
