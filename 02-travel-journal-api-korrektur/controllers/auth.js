@@ -9,13 +9,13 @@ const signUp = async (req, res) => {
   if (userExists) throw new Error('User already exists', { cause: 400 });
 
   const hashedPassword = await bcrypt.hash(password, 13);
-  const newUser = await User.create({ ...req.body, password: hashedPassword });
+  const newUser = await User.create({ ...req.sanitizedBody, password: hashedPassword });
 
   res.json(newUser);
 };
 
 const signIn = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.sanitizedBody;
 
   let user = await User.findOne({ email }).select('+password');
   if (!user) throw new Error('Invalid Credentials', { cause: 400 });
