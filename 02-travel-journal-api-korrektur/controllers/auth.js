@@ -44,7 +44,7 @@ const signIn = async (req, res) => {
   res.json(user);
 };
 
-const signOut = async (req, res) => {
+const signOut = async (_req, res) => {
   const isProduction = process.env.NODE_ENV === 'production';
 
   const cookieOptions = {
