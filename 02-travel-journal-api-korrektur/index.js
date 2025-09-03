@@ -14,6 +14,7 @@ const port = process.env.PORT || 8000;
 // app.use(cors({ origin: origin, credentials: true }));
 
 //Option 2
+// CLIENT_URL -> http://localhost:5172  || https.//mydeployedsite.onrender.com
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());

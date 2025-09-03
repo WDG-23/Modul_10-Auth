@@ -3,13 +3,16 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const signUp = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.sanitizedBody;
 
   const userExists = await User.findOne({ email });
-  if (userExists) throw new Error('User already exists', { cause: 400 });
+  if (userExists) throw new Error('User already exists', { cause: 409 });
 
   const hashedPassword = await bcrypt.hash(password, 13);
-  const newUser = await User.create({ ...req.sanitizedBody, password: hashedPassword });
+  let newUser = await User.create({ ...req.sanitizedBody, password: hashedPassword });
+
+  newUser = newUser.toObject();
+  delete newUser.password;
 
   res.json(newUser);
 };
