@@ -76,4 +76,11 @@ const logout = (req, res) => {
   res.json({ msg: 'Logout successful' });
 };
 
-export { registerUser, login, logout };
+const me = async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById(_id).lean();
+  if (!user) throw new Error('User not found', { cause: 404 });
+  res.json({ data: user });
+};
+
+export { registerUser, login, logout, me };

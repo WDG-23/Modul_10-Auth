@@ -6,9 +6,8 @@ const createBook = async (req, res) => {
 };
 
 const getAllBooks = async (req, res) => {
-  const { page } = req.query;
+  const { page, limit } = req.query;
   const parsedPage = parseInt(page) ?? 1;
-  const limit = 10;
   const offset = (parsedPage - 1) * limit;
 
   const books = await Book.find().limit(limit).skip(offset);
