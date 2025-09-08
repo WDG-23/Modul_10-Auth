@@ -24,7 +24,7 @@ const Books = () => {
     };
 
     fetchBooks();
-  }, [page]);
+  }, [page, toaster.error]);
 
   return (
     <>
@@ -34,28 +34,27 @@ const Books = () => {
         <button onClick={() => setPage((prev) => (prev === 1 ? 7 : prev - 1))} className='btn btn-circle self-center'>
           ❮
         </button>
-        {books &&
-          books.map((book, ind) => {
-            return (
-              <div key={book._id} className='card bg-base-100 w-80 shadow-sm border'>
-                <figure className='px-10 pt-10 min-h-60'>
-                  <img height={240} src={`https://picsum.photos/200?random=${ind}`} alt='' className='rounded-xl' />
-                </figure>
-                <div className='card-body items-center text-center'>
-                  <h2 className='card-title'>{book.title}</h2>
-                  <h3 className='card-title text-sm'>{book.author}</h3>
-                  <p>{book.description}</p>
-                  <div className='card-actions'>
-                    {true && (
-                      <button onClick={() => alert('CHANGE READING LIST')} className='btn btn-primary'>
-                        {false ? 'Remove from' : 'Add to'} reading List
-                      </button>
-                    )}
-                  </div>
+        {books?.map((book, ind) => {
+          return (
+            <div key={book._id} className='card bg-base-100 w-80 shadow-sm border'>
+              <figure className='px-10 pt-10 min-h-60'>
+                <img height={240} src={`https://picsum.photos/200?random=${ind}`} alt='' className='rounded-xl' />
+              </figure>
+              <div className='card-body items-center text-center'>
+                <h2 className='card-title'>{book.title}</h2>
+                <h3 className='card-title text-sm'>{book.author}</h3>
+                <p>{book.description}</p>
+                <div className='card-actions'>
+                  {true && (
+                    <button onClick={() => alert('CHANGE READING LIST')} className='btn btn-primary'>
+                      {false ? 'Remove from' : 'Add to'} reading List
+                    </button>
+                  )}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
 
         <button onClick={() => setPage((prev) => (prev === 7 ? 1 : prev + 1))} className='btn btn-circle self-center'>
           ❯
